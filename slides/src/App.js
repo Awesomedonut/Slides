@@ -1,15 +1,31 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import SlideDeck from './SlideDeck';
-import { introSlides } from './slides/test.js';
+import { img } from './slides/vision/img';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Intro Slides</h1>
-      <SlideDeck slides={introSlides} />
+    <Router>
+      <div className="App">
+        <h1>Slide Decks</h1>
+        <nav>
+          <ul>
+            <li>
+              <h2>Intro to Computer Vision</h2>
+              <ul>
+                <li><Link to="/vision/img">Images and Colours</Link></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
 
-    </div>
+        <Routes>
+          <Route path="/vision/img" element={<SlideDeck slides={img} />} />
+        </Routes>
+
+      </div>
+    </Router>
   );
 }
 

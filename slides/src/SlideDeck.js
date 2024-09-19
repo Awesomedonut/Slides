@@ -1,40 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function SlideDeck({ slides }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlideIndex((prevIndex) => 
+      prevIndex < slides.length - 1 ? prevIndex + 1 : prevIndex
+    );
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentSlideIndex((prevIndex) => 
+      prevIndex > 0 ? prevIndex - 1 : prevIndex
+    );
   };
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'ArrowRight') {
-        nextSlide();
-      } else if (event.key === 'ArrowLeft') {
-        prevSlide();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  const currentSlide = slides[currentSlideIndex];
 
   return (
     <div className="slide-deck">
-      <div className="slide-container">
-        {slides[currentSlide]}
+      <div className="slide">
+        <h2>{currentSlide.title}</h2>
+        <p>{currentSlide.content}</p>
       </div>
       <div className="controls">
-        <button onClick={prevSlide}>←</button>
-        <button onClick={nextSlide}>→</button>
+        <button onClick={prevSlide} disabled={currentSlideIndex === 0}>Previous</button>
+        <button onClick={nextSlide} disabled={currentSlideIndex === slides.length - 1}>Next</button>
       </div>
     </div>
   );
