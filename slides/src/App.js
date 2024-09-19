@@ -1,23 +1,49 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
+const slides = [
+  <div><h1>Slide 1</h1><p>This is the first slide</p></div>,
+  <div><h1>Slide 2</h1><p>This is the second slide</p></div>,
+  <div><h1>Slide 3</h1><p>This is the third slide</p></div>,
+  // Add more slides as needed
+];
+
 function App() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'ArrowRight') {
+        nextSlide();
+      } else if (event.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="slide-container">
+        {slides[currentSlide]}
+      </div>
+      <div className="controls">
+        <button onClick={prevSlide}>←</button>
+        <button onClick={nextSlide}>→</button>
+      </div>
     </div>
   );
 }
