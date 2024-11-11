@@ -21,7 +21,14 @@ function SlideDeck({ slides }) {
     <div className="slide-deck">
       <div className="slide">
         <h2>{currentSlide.title}</h2>
-        <p>{currentSlide.content}</p>
+        <div style={{ whiteSpace: 'pre-line' }}>{currentSlide.content}</div>
+        {currentSlide.image && (
+          <img 
+            src={`/images/${currentSlide.image}`} 
+            alt={currentSlide.title}
+            style={{ maxWidth: '100%', height: 'auto' }}
+          />
+        )}
       </div>
       <div className="controls">
         <button onClick={prevSlide} disabled={currentSlideIndex === 0}>Previous</button>
