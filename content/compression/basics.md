@@ -129,3 +129,27 @@ uses fixed length codewords to repr variable len strings
 encoder + decoder both dynamically build same dict
 
 ![alt text](image-6.png)
+
+arithmetic coding
+
+partition into recursive intervals
+each interval size is proportional to prob
+once ur in an interval u never get out
+final interval: any num ok
+
+decoder works as the interval partition is unique
+
+problems
+- no output till end
+- precision error/floating point roundoff error
+
+scaling and incremental coding
+
+as range shrinks, most significant bits become the same
+ex: 0.7712 and 0.773504 = 0.110001*0*... and 0.110001*1*..
+so output identical MSB and rescale
+
+E1: [0, 0.5) -> output 0 and x 2 (left shift)
+E2: [0.5, 1) -> output 1 and 2(x - 0.5)
+
+interval doesnt matter, only final output
